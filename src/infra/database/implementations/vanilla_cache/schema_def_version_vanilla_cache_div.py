@@ -1,4 +1,5 @@
 from collections.abc import Hashable
+from datetime import timedelta, datetime
 from typing import List, Optional, Dict
 import uuid
 
@@ -16,9 +17,6 @@ class SchemaDefVersionVanillaCacheDiv(SchemaDefVersionDivision):
     """
 
     def __init__(self):
-        """
-        Initialize the in-memory store for schema definition versions.
-        """
         self._schema_versions : Dict[Hashable, SchemaDefinitionVersion] = {}
 
 
@@ -89,3 +87,29 @@ class SchemaDefVersionVanillaCacheDiv(SchemaDefVersionDivision):
             The unique identifier of the deleted schema version.
         """
         return self._schema_versions.pop(uid)
+
+    def delete_inactive_schema_versions(self, schema_keyname: str,
+                                        current_version: Hashable, days: int) -> List[Hashable]:
+        """Delete all inactive versions of a specific schema.
+
+        Parameters
+        ----------
+        schema_keyname : str
+            The keyname of the schema whose inactive versions are to be deleted.
+        current_version : Hashable
+            The unique identifier of the current active schema version.
+        days : int
+            The number of days to consider a version as inactive.
+
+        Returns
+        -------
+        List[Hashable]
+            List of unique identifiers of the deleted schema versions.
+        """
+        deleted_uids = []
+        for uid, version in list(self._schema_versions.items()):
+            if (version.schema_keyname == schema_keyname and uid != current_version and
+                    version.created_at < (datetime.now() - timedelta(days=days))):
+                deleted_uids.append(uid)
+                del self._schema_versions[uid]
+        return deleted_uids

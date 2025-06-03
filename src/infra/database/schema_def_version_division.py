@@ -75,3 +75,23 @@ class SchemaDefVersionDivision(Division, metaclass=ABCMeta):
         """
         raise NotImplementedError
 
+    @abstractmethod
+    def delete_inactive_schema_versions(self, schema_keyname: str,
+                                        current_version: Hashable, days: int) -> List[Hashable]:
+        """Delete all inactive versions of a specific schema.
+
+        Parameters
+        ----------
+        schema_keyname : str
+            The name of the schema whose inactive versions are to be deleted.
+        current_version : Hashable
+            The unique identifier of the current active schema version.
+        days : int
+            The number of days after which a schema version is considered inactive.
+
+        Returns
+        -------
+        list[Hashable]
+            A list of unique identifiers for the deleted schema versions.
+        """
+        raise NotImplementedError

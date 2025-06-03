@@ -1,6 +1,8 @@
 import uuid
 from typing import List, Hashable, Optional
 
+from bisslog.exceptions.domain_exception import NotFound
+
 from src.domain.model.schema import Schema
 from src.infra.database.stores_division import StoresDivision
 
@@ -73,8 +75,10 @@ class StoresVanillaCacheDivision(StoresDivision):
         return self._stores.get(schema_keyname, {}).get(uid_data)
 
     def get_data_from_store(self, schema_keyname: str, params: dict) -> List[dict]:
+        if schema_keyname not in self._stores:
+            raise NotFound("not-found-table", f"Not found schema store '{schema_keyname}'")
         if not params:
-            return self._stores[schema_keyname].values()
+            return list(self._stores[schema_keyname].values())
         res = []
         for item in self._stores[schema_keyname].values():
             if all(item.get(k) == v for k, v in params.items()):
