@@ -1,0 +1,178 @@
+name: company registry data
+type: microservice
+description: Manages company data and schema definitions including creation, update, retrieval, and deletion operations.
+service_type: functional
+team: data-platform
+tags:
+  service: company-data-registry-service
+use_cases:
+  insert_company_data:
+    name: insert company data
+    description: Insert new data into the company store following the schema definition
+    actor: system
+    type: create functional data
+    criticality: high
+    triggers:
+    - type: http
+      options:
+        method: post
+        path: /company/data/{schema_keyname}
+        mapper:
+          path_query.schema_keyname: schema_keyname
+          body: data
+    - type: consumer
+      options:
+        queue: company_data_insertion.queue
+        partition: company_data_registry_vh
+        dead_letter_queue: company_data_insertion.dlq_queue
+        mapper:
+          event.schema_keyname: schema_keyname
+          event.body: data
+    tags:
+      accessibility: private
+  update_company_data:
+    name: update company data
+    description: Update existing data in the company store
+    actor: system
+    type: update functional data
+    criticality: high
+    triggers:
+    - type: http
+      options:
+        method: put
+        path: /company/data/{schema_keyname}/{uid}
+        mapper:
+          path_query.schema_keyname: schema_keyname
+          path_query.uid: uid_data
+          body: data
+    tags:
+      accessibility: private
+  get_company_data:
+    name: get company data
+    description: Retrieve data from the company store
+    actor: system
+    type: read functional data
+    criticality: medium
+    triggers:
+    - type: http
+      options:
+        method: get
+        path: /company/data/{schema_keyname}
+        apigw: public
+        mapper:
+          path_query.schema_keyname: schema_keyname
+          params: params
+    - type: http
+      options:
+        method: get
+        path: /company-data/{schema_keyname}
+        apigw: internal
+    tags:
+      accessibility: private
+  delete_company_data:
+    name: delete company data
+    description: Delete specific data from the company store
+    actor: system
+    type: delete functional data
+    criticality: high
+    triggers:
+    - type: http
+      options:
+        method: delete
+        path: /company/data/{schema_keyname}/{uid}
+        mapper:
+          path_query.schema_keyname: schema_keyname
+          path_query.uid: uid_data
+    tags:
+      accessibility: private
+  create_schema:
+    name: create schema
+    description: Creates a new schema in the database including initial definition and store
+    actor: schema manager
+    type: create configuration
+    criticality: high
+    triggers:
+    - type: http
+      options:
+        method: post
+        path: /schemas
+        mapper:
+          body: schema_info
+    tags:
+      accessibility: private
+  update_schema_definition:
+    name: update schema definition
+    description: Updates the definition of an existing schema
+    actor: schema manager
+    type: update configuration
+    criticality: high
+    triggers:
+    - type: http
+      options:
+        method: put
+        path: /schemas/{schema_keyname}/definition
+        mapper:
+          path_query.schema_keyname: schema_keyname
+          body: schema_definition
+    tags:
+      accessibility: private
+  change_current_schema_def_version:
+    name: change current schema definition version
+    description: Switches the current schema to a different existing version
+    actor: schema manager
+    type: update configuration
+    criticality: medium
+    triggers:
+    - type: http
+      options:
+        method: put
+        path: /schemas/{schema_keyname}/version
+        mapper:
+          path_query.schema_keyname: schema_keyname
+          body.uid_schema_version: uid_schema_version
+    tags:
+      accessibility: private
+  delete_schema:
+    name: delete schema
+    description: Deletes an existing schema
+    actor: schema manager
+    type: delete metadata
+    criticality: high
+    triggers:
+    - type: http
+      options:
+        method: delete
+        path: /schemas/{schema_keyname}
+        mapper:
+          path_query.schema_keyname: schema_keyname
+    tags:
+      accessibility: private
+  delete_schema_version:
+    name: delete schema version
+    description: Deletes a specific schema version
+    actor: schema manager
+    type: delete metadata
+    criticality: medium
+    triggers:
+    - type: http
+      options:
+        method: delete
+        path: /schema-versions/{uid_schema_def_version}
+        mapper:
+          path_query.uid_schema_def_version: uid_schema_def_version
+    tags:
+      accessibility: private
+
+  delete_all_inactive_schema_version:
+    name: delete all inactive schema versions
+    description: Deletes all schema versions that are not currently active
+    actor: schema manager
+    type: delete metadata
+    criticality: medium
+    triggers:
+    - type: schedule
+      options:
+        cronjob: "0 0 ? * 1 *"
+        event: {"days": 30}
+        timezone: "UTC"
+        description: "Deletes all schema versions that are not currently active sunday at midnight UTC"
