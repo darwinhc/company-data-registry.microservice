@@ -1,4 +1,5 @@
 from bisslog import bisslog_db as db
+from bisslog_schema.setup import bisslog_setup
 
 from ..database.implementations.vanilla_cache.schema_def_version_vanilla_cache_div import \
     SchemaDefVersionVanillaCacheDiv
@@ -7,7 +8,7 @@ from ..database.implementations.vanilla_cache.schema_vanilla_cache_division impo
 from ..database.implementations.vanilla_cache.stores_vanilla_cache_division import \
     StoresVanillaCacheDivision
 
-
+@bisslog_setup()
 def setup():
     db.register_adapters(stores=StoresVanillaCacheDivision(), schema=SchemaVanillaCacheDivision(),
                          schema_version=SchemaDefVersionVanillaCacheDiv())
