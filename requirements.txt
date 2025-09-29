@@ -1,3 +1,4 @@
 bisslog>=0.0.5
 bisslog-pymongo
 jsonschema
+pymongo

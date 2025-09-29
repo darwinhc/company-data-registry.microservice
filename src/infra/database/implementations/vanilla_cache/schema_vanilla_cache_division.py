@@ -75,6 +75,8 @@ class SchemaVanillaCacheDivision(SchemaDivision):
             The unique identifier of the created schema.
         """
         schema.schema_id = str(uuid.uuid4())
+        if schema.schema_keyname in self._schemas:
+            raise ValueError(f"Schema with keyname '{schema.schema_keyname}' already exists.")
         self._schemas[schema.schema_keyname] = schema
         return schema.schema_id
 

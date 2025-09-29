@@ -12,4 +12,4 @@ class GetAllSchemas(BasicUseCase):
         list
             A list of all schemas in the database.
         """
-        return db.schema.get_all_schemas()
+        return db.schema.get_schemas()

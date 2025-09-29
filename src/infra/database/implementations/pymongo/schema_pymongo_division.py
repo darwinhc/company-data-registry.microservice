@@ -15,7 +15,9 @@ class SchemaMongoDivision(SchemaDivision, BasicPymongoHelper):
     @bisslog_exc_mapper_pymongo
     def get_schema(self, schema_keyname: str) -> Optional[Schema]:
         res = self.get_collection(self.col).find_one({"schema_keyname": schema_keyname})
-        return self.stringify_identifier(res)
+        if not res:
+            return None
+        return Schema(**self.stringify_identifier(res))
 
     @bisslog_exc_mapper_pymongo
     def get_schemas(self, params: dict) -> List[Schema]:
