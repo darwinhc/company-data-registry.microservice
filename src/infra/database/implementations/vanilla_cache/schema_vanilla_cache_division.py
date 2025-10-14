@@ -44,13 +44,13 @@ class SchemaVanillaCacheDivision(SchemaDivision):
         """
         return self._schemas.get(schema_keyname)
 
-    def get_schemas(self, params: dict) -> List[Schema]:
+    def get_schemas(self, params: dict = None) -> List[Schema]:
         """
         List all schemas in the cache.
 
         Parameters
         ----------
-        params : dict
+        params : dict (optional)
             Parameters to filter the schemas (ignored in this implementation).
 
         Returns
