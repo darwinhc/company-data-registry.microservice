@@ -1,8 +1,8 @@
 """Get all schemas use case definition"""
-from bisslog import BasicUseCase, bisslog_db as db, use_case
+from bisslog import bisslog_db as db, use_case, AsyncBasicUseCase
 
 
-class GetAllSchemas(BasicUseCase):
+class GetAllSchemas(AsyncBasicUseCase):
     """Get all schemas"""
 
     @use_case
