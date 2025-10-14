@@ -1,3 +1,5 @@
+"""SchemaBase model."""
+
 from dataclasses import dataclass
 from typing import Any
 
@@ -43,7 +45,8 @@ class SchemaBase:
             raise ValueError(f"'{field_name}' must be at least {min_length} characters long: "
                              f"{n_str}")
         if n_str > max_length:
-            raise ValueError(f"'{field_name}' must be at most {max_length} characters long: {n_str}")
+            raise ValueError(
+                f"'{field_name}' must be at most {max_length} characters long: {n_str}")
 
     @classmethod
     def validate_schema_keyname(cls, val: Any):

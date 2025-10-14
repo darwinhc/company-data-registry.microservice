@@ -1,5 +1,8 @@
+"""Definition StoresDivision class to manage the stores"""
+
 from abc import ABCMeta, abstractmethod
-from typing import Hashable, Optional, List
+from collections.abc import Hashable
+from typing import Optional, List
 
 from bisslog import Division
 
@@ -8,7 +11,7 @@ from src.domain.model.schema import Schema
 
 class StoresDivision(Division, metaclass=ABCMeta):
     """
-    StoresDivision class to manage the stores division.
+    StoresDivision class to manage the stores.
     """
 
     @abstractmethod

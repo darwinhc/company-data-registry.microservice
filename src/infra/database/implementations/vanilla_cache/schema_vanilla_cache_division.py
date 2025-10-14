@@ -6,7 +6,8 @@ management using Python dictionaries as in-memory stores.
 """
 
 import uuid
-from typing import Optional, List, Dict, Hashable
+from collections.abc import Hashable
+from typing import Optional, List, Dict
 
 from src.domain.model.schema import Schema
 from src.domain.model.schema_base import SchemaBase
@@ -21,12 +22,11 @@ class SchemaVanillaCacheDivision(SchemaDivision):
     providing a simple cache mechanism for testing or non-persistent use cases.
     """
 
-
     def __init__(self):
         """
         Initialize the in-memory stores for schemas and schema versions.
         """
-        self._schemas : Dict[str, Schema] = {}
+        self._schemas: Dict[str, Schema] = {}
 
     def get_schema(self, schema_keyname: str) -> Optional[Schema]:
         """
@@ -44,13 +44,13 @@ class SchemaVanillaCacheDivision(SchemaDivision):
         """
         return self._schemas.get(schema_keyname)
 
-    def get_schemas(self, params: dict) -> List[Schema]:
+    def get_schemas(self, params: dict = None) -> List[Schema]:
         """
         List all schemas in the cache.
 
         Parameters
         ----------
-        params : dict
+        params : dict (optional)
             Parameters to filter the schemas (ignored in this implementation).
 
         Returns
@@ -75,6 +75,8 @@ class SchemaVanillaCacheDivision(SchemaDivision):
             The unique identifier of the created schema.
         """
         schema.schema_id = str(uuid.uuid4())
+        if schema.schema_keyname in self._schemas:
+            raise ValueError(f"Schema with keyname '{schema.schema_keyname}' already exists.")
         self._schemas[schema.schema_keyname] = schema
         return schema.schema_id
 
@@ -116,8 +118,6 @@ class SchemaVanillaCacheDivision(SchemaDivision):
         self._schemas[schema.schema_keyname].schema_name = schema.schema_name
         self._schemas[schema.schema_keyname].schema_description = schema.schema_description
         return self._schemas[schema.schema_keyname].schema_id
-
-
 
     def update_schema_definition(self, schema_keyname: str, new_version: Hashable,
                                  definition: dict) -> Optional[Hashable]:

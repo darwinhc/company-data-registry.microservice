@@ -1,3 +1,5 @@
+"""Module for schema operations in the database."""
+
 from abc import abstractmethod, ABCMeta
 from collections.abc import Hashable
 from typing import List, Optional
@@ -28,7 +30,7 @@ class SchemaDivision(Division, metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def get_schemas(self, params: dict) -> List[Schema]:
+    def get_schemas(self, params: Optional[dict] = None) -> List[Schema]:
         """List schemas in the database.
 
         Parameters
@@ -91,7 +93,6 @@ class SchemaDivision(Division, metaclass=ABCMeta):
             Unique identifier for the updated schema.
         """
         raise NotImplementedError
-
 
     @abstractmethod
     def update_schema_definition(self, schema_keyname: str, new_version: Hashable,

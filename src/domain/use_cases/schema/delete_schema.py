@@ -8,20 +8,19 @@ from bisslog import BasicUseCase, bisslog_db as db
 from bisslog.exceptions.domain_exception import NotFound
 
 
-
 class DeleteSchema(BasicUseCase):
     """Use case for deleting a schema from the database."""
 
-    def use(self, schema_keyname: str, *args, **kwargs):
+    def use(self, schema_keyname: str, *_, **__):
         """Delete a schema from the database.
 
         Parameters
         ----------
         schema_keyname : str
             The keyname of the schema to delete.
-        *args
+        *_
             Positional arguments for the use case.
-        **kwargs
+        **__
             Keyword arguments for the use case.
 
         Returns

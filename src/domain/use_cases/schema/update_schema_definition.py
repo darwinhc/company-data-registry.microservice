@@ -1,3 +1,5 @@
+"""Use case for updating the definition of a schema definition."""
+
 from bisslog import BasicUseCase, bisslog_db as db
 from bisslog.exceptions.domain_exception import NotFound
 
@@ -10,7 +12,7 @@ class UpdateSchemaDefinition(BasicUseCase):
     Use case for updating the definition of a schema.
     """
 
-    def use(self, schema_keyname: str, schema_definition: dict, *args, **kwargs):
+    def use(self, schema_keyname: str, schema_definition: dict, *_, **__):
         """Updates the definition of an existing schema in the database.
 
         Parameters
@@ -19,9 +21,9 @@ class UpdateSchemaDefinition(BasicUseCase):
             The name of the schema to be updated.
         schema_definition: dict
             The new definition for the schema.
-        *args
+        *_
             Positional arguments for the use case.
-        **kwargs
+        **__
             Keyword arguments for the use case.
 
         Returns

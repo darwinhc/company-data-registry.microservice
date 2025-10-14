@@ -1,5 +1,7 @@
+"""Schema division using PyMongo."""
+from collections.abc import Hashable
 from dataclasses import asdict
-from typing import Hashable, Optional, List
+from typing import Optional, List
 
 from bisslog_pymongo import BasicPymongoHelper, bisslog_exc_mapper_pymongo
 
@@ -9,23 +11,30 @@ from src.infra.database.schema_division import SchemaDivision
 
 
 class SchemaMongoDivision(SchemaDivision, BasicPymongoHelper):
+    """Concrete implementation of SchemaDivision using PyMongo."""
 
     col = "schemas"
 
     @bisslog_exc_mapper_pymongo
     def get_schema(self, schema_keyname: str) -> Optional[Schema]:
         res = self.get_collection(self.col).find_one({"schema_keyname": schema_keyname})
-        return self.stringify_identifier(res)
+        if not res:
+            return None
+        res = self.stringify_identifier(res)
+        res["schema_id"] = res.pop("_id")
+        return Schema(**res)
 
     @bisslog_exc_mapper_pymongo
-    def get_schemas(self, params: dict) -> List[Schema]:
+    def get_schemas(self, params: dict = None) -> List[Schema]:
+        if not params:
+            params = {}
         res = self.get_collection(self.col).find(params)
         return self.stringify_list_identifier(res)
 
     @bisslog_exc_mapper_pymongo
     def create_schema(self, schema: Schema) -> Hashable:
         res = self.get_collection(self.col).insert_one(asdict(schema))
-        return res.inserted_id
+        return str(res.inserted_id)
 
     @bisslog_exc_mapper_pymongo
     def delete_schema(self, schema_keyname: str) -> Optional[Hashable]:
@@ -35,7 +44,7 @@ class SchemaMongoDivision(SchemaDivision, BasicPymongoHelper):
         res = (self.get_collection(self.col)
                .delete_one({"schema_keyname": schema_keyname}))
         if res.deleted_count == 1:
-            return res["_id"]
+            return str(res["_id"])
         return None
 
     @bisslog_exc_mapper_pymongo
@@ -45,7 +54,7 @@ class SchemaMongoDivision(SchemaDivision, BasicPymongoHelper):
             {"$set": asdict(schema)}
         )
         if res.modified_count == 1:
-            return res.upserted_id
+            return str(res.upserted_id)
         return None
 
     @bisslog_exc_mapper_pymongo
@@ -57,5 +66,5 @@ class SchemaMongoDivision(SchemaDivision, BasicPymongoHelper):
                       "current_schema_definition": definition}}
         )
         if res.modified_count == 1:
-            return res.upserted_id
+            return str(res.upserted_id)
         return None

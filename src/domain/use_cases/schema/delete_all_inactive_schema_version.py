@@ -1,7 +1,10 @@
+"""Use case for deleting all inactive schema versions."""
+
 from bisslog import use_case, bisslog_db as db
 
+
 @use_case
-def delete_all_inactive_schema_versions(*_, **kwargs) -> dict:
+async def delete_all_inactive_schema_versions(*_, **kwargs) -> dict:
     """Use case for deleting all inactive schema versions.
 
     Parameters

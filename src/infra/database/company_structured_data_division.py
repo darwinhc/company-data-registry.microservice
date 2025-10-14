@@ -1,3 +1,5 @@
+"""Module to handle structured data for company division."""
+
 from abc import ABCMeta, abstractmethod
 
 from bisslog import Division
@@ -20,7 +22,7 @@ class CompanyStructuredDataDivision(Division, metaclass=ABCMeta):
         dict
             A dictionary containing the structured data for the specified company.
         """
-        ...
+        raise NotImplementedError
 
     @abstractmethod
     def update_company_structured_data(self, company_id: str, data: dict) -> bool:
@@ -38,7 +40,7 @@ class CompanyStructuredDataDivision(Division, metaclass=ABCMeta):
         bool
             True if the update was successful, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @abstractmethod
     def delete_company_structured_data(self, company_id: str) -> bool:
@@ -54,7 +56,7 @@ class CompanyStructuredDataDivision(Division, metaclass=ABCMeta):
         bool
             True if the deletion was successful, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @abstractmethod
     def list_all_companies_structured_data(self) -> list:
@@ -65,7 +67,7 @@ class CompanyStructuredDataDivision(Division, metaclass=ABCMeta):
         list
             A list of dictionaries, each containing structured data for a company.
         """
-        ...
+        raise NotImplementedError
 
     @abstractmethod
     def create_company_structured_data(self, data: dict) -> str:
@@ -81,5 +83,4 @@ class CompanyStructuredDataDivision(Division, metaclass=ABCMeta):
         str
             The unique identifier for the newly created company.
         """
-        ...
-
+        raise NotImplementedError

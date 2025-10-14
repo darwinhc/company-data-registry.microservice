@@ -1,11 +1,13 @@
-from typing import Hashable
+"""Module to update company data in the database."""
+from collections.abc import Hashable
 
 from bisslog import BasicUseCase, bisslog_db as db
 
 
 class UpdateCompanyData(BasicUseCase):
+    """Class to update company data in the database."""
 
-    def use(self, schema_keyname:str, data: dict, uid_data: Hashable):
+    def use(self, schema_keyname: str, data: dict, uid_data: Hashable):
         """
         Update company data in the database.
 
