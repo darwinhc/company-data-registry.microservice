@@ -1,8 +1,12 @@
+"""Implementation of SchemaDefVersionDivision using PyMongo."""
+
+from collections.abc import Hashable
 from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
-from typing import Hashable, Optional, List
+from typing import Optional, List
 
 from bisslog_pymongo import BasicPymongoHelper, bisslog_exc_mapper_pymongo
+
 from src.domain.model.schema_definition_version import SchemaDefinitionVersion
 from src.infra.database.schema_def_version_division import SchemaDefVersionDivision
 
@@ -48,7 +52,7 @@ class SchemaDefVersionMongoDivision(SchemaDefVersionDivision, BasicPymongoHelper
             "_id": {"$ne": self.verify_query({"_id": str(current_version)})["_id"]},
             "created_at": {"$lt": cutoff_date}
         }
-        res = self.get_collection(self.col).delete_many(query)
-        deleted_ids = [str(doc["_id"]) for doc in self.get_collection(self.col).find(query, {"_id": 1})]
+        deleted_ids = [str(doc["_id"]) for doc in
+                       self.get_collection(self.col).find(query, {"_id": 1})]
         self.get_collection(self.col).delete_many(query)
         return deleted_ids

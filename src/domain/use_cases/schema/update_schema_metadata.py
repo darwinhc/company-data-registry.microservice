@@ -1,11 +1,14 @@
+"""Use case for updating the metadata of an existing schema in the database."""
+
 from bisslog import BasicUseCase, bisslog_db as db
 
 from src.domain.model.schema_base import SchemaBase
 
 
 class UpdateSchemaMetadata(BasicUseCase):
+    """Use case for updating the metadata of an existing schema in the database."""
 
-    def use(self, schema_keyname: str, schema_new_info: dict, *args, **kwargs):
+    def use(self, schema_keyname: str, schema_new_info: dict, *_, **__):
         """Updates the metadata of an existing schema in the database.
 
         Parameters
@@ -14,9 +17,9 @@ class UpdateSchemaMetadata(BasicUseCase):
             The name of the schema to be updated.
         schema_new_info: dict
             The new information for the schema.
-        *args
+        *_
             Positional arguments for the use case.
-        **kwargs
+        **__
             Keyword arguments for the use case.
 
         Returns

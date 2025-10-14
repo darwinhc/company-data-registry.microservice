@@ -1,6 +1,9 @@
+"""Company structured data implementation using PyMongo."""
+
 from typing import List
 
 from bisslog_pymongo import bisslog_exc_mapper_pymongo, BasicPymongoHelper
+
 from src.infra.database.company_structured_data_division import CompanyStructuredDataDivision
 
 

@@ -1,3 +1,5 @@
+"""Use-case to delete company data."""
+
 from collections.abc import Hashable
 
 from bisslog import bisslog_db as db, use_case

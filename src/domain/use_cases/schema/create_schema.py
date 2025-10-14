@@ -15,8 +15,7 @@ from src.domain.model.schema_definition_version import SchemaDefinitionVersion
 class CreateSchema(BasicUseCase):
     """Use case for creating a schema in the database."""
 
-
-    def use(self, schema_info: dict, *args, **kwargs):
+    def use(self, schema_info: dict, *_, **__):
         """Create a new schema in the database."""
 
         # this implies validation of the schema_info

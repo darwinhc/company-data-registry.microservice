@@ -1,10 +1,12 @@
-from bisslog import BasicUseCase, bisslog_db as db
+"""Get all schemas use case definition"""
+from bisslog import BasicUseCase, bisslog_db as db, use_case
 
 
 class GetAllSchemas(BasicUseCase):
+    """Get all schemas"""
 
-
-    def use(self, *args, **kwargs):
+    @use_case
+    async def get_all_schemas_method(self, *_, **__):
         """Retrieve all schemas from the database.
 
         Returns

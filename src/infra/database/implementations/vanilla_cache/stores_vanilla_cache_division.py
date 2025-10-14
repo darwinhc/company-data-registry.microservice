@@ -1,5 +1,8 @@
+"""In-memory implementation of the StoresDivision interface."""
+
 import uuid
-from typing import List, Hashable, Optional
+from collections.abc import Hashable
+from typing import List, Optional
 
 from bisslog.exceptions.domain_exception import NotFound
 
@@ -14,8 +17,6 @@ class StoresVanillaCacheDivision(StoresDivision):
     This class manages stores using Python dictionaries,
     providing a simple cache mechanism for testing or non-persistent use cases.
     """
-
-
 
     def __init__(self):
         """

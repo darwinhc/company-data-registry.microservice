@@ -1,3 +1,5 @@
+"""Module containing the schema definition version division class."""
+
 from abc import ABCMeta, abstractmethod
 from collections.abc import Hashable
 from typing import Optional, List
@@ -9,7 +11,6 @@ from src.domain.model.schema_definition_version import SchemaDefinitionVersion
 
 class SchemaDefVersionDivision(Division, metaclass=ABCMeta):
     """Class to handle schema definition version operations for the database division."""
-
 
     @abstractmethod
     def create_schema_version(self, schema_version: SchemaDefinitionVersion) -> Hashable:
@@ -55,7 +56,8 @@ class SchemaDefVersionDivision(Division, metaclass=ABCMeta):
         Returns
         -------
         list[SchemaDefinitionVersion]
-            A list of dictionaries, each containing information about a version of the specified schema.
+            A list of dictionaries, each containing information about a
+            version of the specified schema.
         """
         raise NotImplementedError
 

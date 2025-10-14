@@ -116,6 +116,17 @@ use_cases:
           body: schema_definition
     tags:
       accessibility: private
+  get_schema:
+    name: get schema
+    description: Retrieves an existing schema
+    actor: schema manager
+    type: read configuration
+    criticality: medium
+    triggers:
+    - type: http
+      options:
+        method: get
+        path: /schemas/{schema_keyname}
   change_current_schema_def_version:
     name: change current schema definition version
     description: Switches the current schema to a different existing version

@@ -1,11 +1,14 @@
-from typing import Optional, Dict, Union
+"""Get Company Data Use Case definition."""
+
+from typing import Optional
 
 from bisslog import BasicUseCase, bisslog_db as db
 
 
 class GetCompanyData(BasicUseCase):
+    """Get Company Data"""
 
-    def use(self, schema_keyname: str, params: Optional[dict] = None, *args, **kwargs):
+    def use(self, schema_keyname: str, *, params: Optional[dict] = None, **__):
         """
         Get all data from the store of the schema in the database.
 
@@ -15,9 +18,7 @@ class GetCompanyData(BasicUseCase):
             The name of the schema whose store is to be accessed.
         params : dict, optional
             Parameters to filter the data to be retrieved. If None, all data will be retrieved.
-        args : tuple
-            Positional arguments.
-        kwargs : dict
+        __ : dict
             Keyword arguments.
 
         Returns

@@ -1,14 +1,19 @@
-from typing import Hashable, Optional, List
+"""Stores division for PyMongo implementation."""
+from collections.abc import Hashable
+from typing import Optional, List
 
 from bisslog_pymongo import BasicPymongoHelper, bisslog_exc_mapper_pymongo
+
 from src.domain.model.schema import Schema
 from src.infra.database.stores_division import StoresDivision
 
 
 class StoreMongoDivision(StoresDivision, BasicPymongoHelper):
+    """Concrete implementation of StoresDivision using PyMongo."""
 
     @bisslog_exc_mapper_pymongo
     def create_store_of_schema(self, schema: Schema) -> bool:
+        """Create a new store for the schema in the database."""
         self.database.create_collection(schema.schema_keyname)
         return True
 
@@ -31,7 +36,7 @@ class StoreMongoDivision(StoresDivision, BasicPymongoHelper):
     @bisslog_exc_mapper_pymongo
     def insert_data_into_store(self, schema_keyname: str, data: dict) -> Optional[Hashable]:
         res = self.get_collection(schema_keyname).insert_one(data)
-        return res.inserted_id
+        return str(res.inserted_id)
 
     @bisslog_exc_mapper_pymongo
     def update_data_in_store(self, schema_keyname: str, data: dict,

@@ -1,5 +1,7 @@
+"""Schema model for the database."""
+from collections.abc import Hashable
 from dataclasses import dataclass
-from typing import Any, Optional, Hashable
+from typing import Any, Optional
 
 from jsonschema.validators import validator_for
 

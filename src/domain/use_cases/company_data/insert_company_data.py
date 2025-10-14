@@ -1,3 +1,5 @@
+"""Module to insert company data into the database."""
+
 from bisslog import BasicUseCase, bisslog_db as db
 from bisslog.exceptions.domain_exception import NotFound
 from jsonschema.validators import Draft7Validator
@@ -6,7 +8,7 @@ from jsonschema.validators import Draft7Validator
 class InsertCompanyData(BasicUseCase):
     """Class to insert company data into the database."""
 
-    def use(self, schema_keyname: str, data: dict, *args, **kwargs) -> dict:
+    def use(self, schema_keyname: str, data: dict, *_, **__) -> dict:
         """
         Insert company data into the database.
 
@@ -16,9 +18,9 @@ class InsertCompanyData(BasicUseCase):
             The name of the schema to insert data into.
         data : dict
             The data to be inserted into the schema.
-        args : tuple
+        _ : tuple
             Positional arguments.
-        kwargs : dict
+        __ : dict
             Keyword arguments.
 
         Returns
@@ -38,7 +40,6 @@ class InsertCompanyData(BasicUseCase):
             error_messages = [f"Error in '{error.instance}': {error.message}" for error in errors]
 
             return {"errors": error_messages}
-
 
         uid_data = db.stores.insert_data_into_store(schema_keyname, data)
 

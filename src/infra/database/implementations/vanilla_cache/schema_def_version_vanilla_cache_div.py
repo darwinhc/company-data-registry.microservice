@@ -1,14 +1,15 @@
+"""In-memory implementation of the SchemaDefVersionDivision interface."""
+
+import uuid
 from collections.abc import Hashable
 from datetime import timedelta, datetime
 from typing import List, Optional, Dict
-import uuid
 
 from src.domain.model.schema_definition_version import SchemaDefinitionVersion
 from src.infra.database.schema_def_version_division import SchemaDefVersionDivision
 
 
 class SchemaDefVersionVanillaCacheDiv(SchemaDefVersionDivision):
-
     """
     In-memory implementation of the SchemaDefVersionDivision interface.
 
@@ -17,9 +18,7 @@ class SchemaDefVersionVanillaCacheDiv(SchemaDefVersionDivision):
     """
 
     def __init__(self):
-        self._schema_versions : Dict[Hashable, SchemaDefinitionVersion] = {}
-
-
+        self._schema_versions: Dict[Hashable, SchemaDefinitionVersion] = {}
 
     def create_schema_version(self, schema_version: SchemaDefinitionVersion) -> Hashable:
         """
