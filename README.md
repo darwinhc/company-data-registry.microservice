@@ -27,3 +27,28 @@ Use Case Layer
 Ports
    ↓
 Adapters: Database, Audit Log, Cache, Publisher
+```
+
+## Tech stack
+
+Python · FastAPI/Flask · MongoDB/PostgreSQL · Redis · Docker · Pytest · Clean Architecture
+
+How to run
+
+```bash
+git clone ...
+cd company-data-registry.microservice
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest
+```
+
+
+## What this demonstrates
+- Backend architecture design
+- Separation of business logic from infrastructure
+- Testing strategy
+- Maintainable service boundaries
+- Production-oriented thinking
+
